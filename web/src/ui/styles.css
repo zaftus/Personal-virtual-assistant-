@@ -1,0 +1,14 @@
+:root { --bg:#0f172a; --card:#0b1220; --accent:#7c3aed; color-scheme: dark }
+*{box-sizing:border-box}
+body { margin:0; font-family:Inter, system-ui, Arial; background:var(--bg); color:#e6eef8 }
+.app { display:flex; height:100vh }
+.sidebar { width:300px; padding:20px; background:#071024 }
+.main { flex:1; display:flex; align-items:center; justify-content:center; padding:20px }
+.chat { width:720px; max-width:100%; background:#071826; padding:18px; border-radius:12px }
+.msg { padding:10px 12px; border-radius:8px; margin:8px 0; max-width:80% }
+.msg.user { background:rgba(255,255,255,0.06); margin-left:auto; text-align:right }
+.msg.ava { background:rgba(255,255,255,0.02); margin-right:auto }
+.composer { display:flex; gap:8px; margin-top:12px }
+.composer input { flex:1; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent color:inherit }
+.composer button { padding:10px 14px; border-radius:8px; background:var(--accent); border:none; color:white; cursor:pointer }
+.auth input { width:100%; margin-bottom:8px; padding:8px; border-radius:6px; border:1px solid rgba(255,255,255,0.04); background:transparent color:inherit }
