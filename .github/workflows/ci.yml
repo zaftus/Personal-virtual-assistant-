@@ -1,0 +1,40 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: ava
+          POSTGRES_PASSWORD: ava_pass
+          POSTGRES_DB: ava_db
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: node-version: "20"
+      - name: Install API deps
+        run: |
+          cd api
+          npm ci
+          npm run build
+      - name: API tests
+        run: |
+          cd api
+          npm test
+      - name: Frontend tests
+        run: |
+          cd web
+          npm ci
+          npm test
+      - name: NLP tests
+        uses: actions/setup-python@v4
+        with: python-version: '3.11'
+      - run: |
+          cd nlp
+          pip install -r requirements.txt
+          pytest -q
