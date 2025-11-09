@@ -1,0 +1,49 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ava
+      POSTGRES_PASSWORD: ava_pass
+      POSTGRES_DB: ava_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  api:
+    build: ./api
+    env_file: .env
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/usr/src/app
+
+  nlp:
+    build: ./nlp
+    env_file: .env
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./nlp:/usr/src/app
+
+  web:
+    build: ./web
+    ports:
+      - "3000:3000"
+    env_file: .env
+    volumes:
+      - ./web:/usr/src/app
+    depends_on:
+      - api
+
+volumes:
+  db-data:
